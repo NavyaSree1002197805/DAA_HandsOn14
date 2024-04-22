@@ -3,18 +3,20 @@ from collections import defaultdict
 class TopologicalGraph:
     def __init__(self):
         self.graph = defaultdict(list)
+        self.vertices = set()
 
     def add_edge(self, u, v):
         self.graph[u].append(v)
+        self.vertices.add(u)
+        self.vertices.add(v)
 
     def topological_sort(self):
-        vertices = ['shirt', 'tie', 'socks', 'pants', 'undershorts', 'belt', 'jacket', 'shoes']
-        in_degree = {u: 0 for u in vertices}
+        in_degree = {u: 0 for u in self.vertices}
         for u in self.graph:
             for v in self.graph[u]:
                 in_degree[v] += 1
 
-        queue = [u for u in vertices if in_degree[u] == 0]
+        queue = [u for u in self.vertices if in_degree[u] == 0]
         topological_order = []
 
         while queue:
